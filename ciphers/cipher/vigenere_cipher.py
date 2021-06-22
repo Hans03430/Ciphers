@@ -17,7 +17,7 @@ class VigenereCipher(BaseCipher):
         Keyword to encrypt/decrypt the text.
 
     shifts: CaesarCipher
-        The Caesar ciphers that simulate the tabula recta.
+        The Caesar cipher that simulate the tabula recta.
 
     key_ord: List[int]
         Numeric order for each letter of the key.
@@ -58,11 +58,9 @@ class VigenereCipher(BaseCipher):
     @language.setter
     def language(self, language: Alphabet) -> None:
         self.__language = language
-        # Create the new caesar ciphers
-        self.shifts = [
-            CaesarCipher(i, self.language)
-            for i in range(len(self.language))
-        ]
+        # Create the a caesar cipher
+        self.shifts = CaesarCipher(language=self.language)
+        
 
     def decrypt(self, text:str) -> str:
         '''Decrypt a encrypted text using the Vigenere cipher, using the shift
@@ -78,8 +76,9 @@ class VigenereCipher(BaseCipher):
         # Iterate all the text
         for i, character in enumerate(text):
             if character.isalpha():
+                self.shifts.shift = self.key_ord[i % key_length]
                 decrypted.append(
-                    self.shifts[self.key_ord[i % key_length]].decrypt(character)
+                    self.shifts.decrypt(character)
                 )
             else:
                 decrypted.append(character)
@@ -100,8 +99,9 @@ class VigenereCipher(BaseCipher):
         # Iterate all the text
         for i, character in enumerate(text):
             if character.isalpha():
+                self.shifts.shift = self.key_ord[i % key_length]
                 encrypted.append(
-                    self.shifts[self.key_ord[i % key_length]].encrypt(character)
+                    self.shifts.encrypt(character)
                 )
             else:
                 encrypted.append(character)
