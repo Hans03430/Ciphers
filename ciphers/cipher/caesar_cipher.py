@@ -11,10 +11,8 @@ class CaesarCipher(BaseCipher):
     ----------
     shift: int
         The amount of letters to shift for the encryption/decryption.
-    language: Alphabet
-        The letters of an alphabet the Cipher will work upon.
     '''
-    __slots__ = ['shift', 'language']
+    __slots__ = ['shift']
 
     def __init__(self, shift: int=3, language: Alphabet=None) -> None:
         '''Create a Caesar Cipher class.
@@ -31,6 +29,14 @@ class CaesarCipher(BaseCipher):
         else:
             self.language = languages['en']
 
+    @property
+    def language(self) -> Alphabet:
+        return self._language
+
+    @language.setter
+    def language(self, language: Alphabet) -> None:
+        self._language = language
+
     def decrypt(self, text:str) -> str:
         '''Decrypt a encrypted text using the Caesar cipher, using the shift
         given to the class.
@@ -40,27 +46,22 @@ class CaesarCipher(BaseCipher):
         text: str
             The text to decrypt.
         '''
-        decrypted = [] # Empty list with the decrypted letters
-        vocabulary_length = len(self.language)
-        # iterate over the text
-        for character in text:
-            # Encrypt the character
-            if character.islower():
-                new_char = self.language[
-                    (self.language[character] - self.shift) % vocabulary_length,
-                    'lower'
-                ]
-                decrypted.append(new_char)
-            elif character.isupper():
-                new_char = self.language[
-                    (self.language[character] - self.shift) % vocabulary_length,
-                    'upper'
-                ]
-                decrypted.append(new_char)
-            else:
-                decrypted.append(character)
+        decrypted_generator = (
+            self.language[
+                (self.language[character] - self.shift) % len(self.language),
+                'lower'
+            ]
+            if character.islower()
+            else self.language[
+                (self.language[character] - self.shift) % len(self.language),
+                'upper'
+            ]
+            if character.isupper()
+            else character
+            for character in text
+        )
         # Return the text
-        return ''.join(decrypted)
+        return ''.join(decrypted_generator)
 
     def encrypt(self, text:str) -> str:
         '''encrypt a encrypted text using the Caesar cipher, using the shift
@@ -71,24 +72,19 @@ class CaesarCipher(BaseCipher):
         text: str
             The text to encrypt.
         '''
-        encrypted = [] # Empty list with the encrypted letters
-        vocabulary_length = len(self.language)
-        # iterate over the text
-        for character in text:
-            # Encrypt the character
-            if character.islower():
-                new_char = self.language[
-                    (self.language[character] + self.shift) % vocabulary_length,
-                    'lower'
-                ]
-                encrypted.append(new_char)
-            elif character.isupper():
-                new_char = self.language[
-                    (self.language[character] + self.shift) % vocabulary_length,
-                    'upper'
-                ]
-                encrypted.append(new_char)
-            else:
-                encrypted.append(character)
+        encrypted_generator = (
+            self.language[
+                (self.language[character] + self.shift) % len(self.language),
+                'lower'
+            ]
+            if character.islower()
+            else self.language[
+                (self.language[character] + self.shift) % len(self.language),
+                'upper'
+            ]
+            if character.isupper()
+            else character
+            for character in text
+        )
         # Return the text
-        return ''.join(encrypted)
+        return ''.join(encrypted_generator)

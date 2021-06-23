@@ -6,13 +6,7 @@ from ciphers.commons.constants import languages
 class AtbashCipher(BaseCipher):
     '''Class that defines the Atbash Cipher for a language. Uses english by
     default but accepts custom languages.
-    
-    Attributes
-    ----------
-    language: Alphabet
-        The letters of an alphabet the Cipher will work upon.
     '''
-    __slots__ = ['language']
 
     def __init__(self, language: Alphabet=None) -> None:
         '''Create a Atbash Cipher class.
@@ -23,6 +17,14 @@ class AtbashCipher(BaseCipher):
         else:
             self.language = languages['en']
 
+    @property
+    def language(self) -> Alphabet:
+        return self._language
+
+    @language.setter
+    def language(self, language: Alphabet) -> None:
+        self._language = language
+
     def decrypt(self, text:str) -> str:
         '''Decrypt a encrypted text using the Atbash cipher, using the shift
         given to the class.
@@ -32,27 +34,22 @@ class AtbashCipher(BaseCipher):
         text: str
             The text to decrypt.
         '''
-        decrypted = [] # Empty list with the decrypted letters
-        vocabulary_length = len(self.language)
-        # iterate over the text
-        for character in text:
-            # Encrypt the character
-            if character.islower():
-                new_char = self.language[
-                    ((-1 * self.language[character]) - 1) % vocabulary_length,
-                    'lower'
-                ]
-                decrypted.append(new_char)
-            elif character.isupper():
-                new_char = self.language[
-                    ((-1 * self.language[character]) - 1) % vocabulary_length,
-                    'upper'
-                ]
-                decrypted.append(new_char)
-            else:
-                decrypted.append(character)
-        # Return the text
-        return ''.join(decrypted)
+        decrypted_generator = (
+            self.language[
+                ((-1 * self.language[character]) - 1) % len(self.language),
+                'lower'
+            ]
+            if character.islower()
+            else self.language[
+                ((-1 * self.language[character]) - 1) % len(self.language),
+                'upper'
+            ]
+            if character.isupper()
+            else character
+            for character in text
+        )
+        # Return the decrypted text
+        return ''.join(decrypted_generator)
 
     def encrypt(self, text:str) -> str:
         '''encrypt a encrypted text using the Atbash cipher, using the shift
