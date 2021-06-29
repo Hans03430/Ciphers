@@ -12,7 +12,7 @@ if __name__ == '__main__':
     vc = AffineCipher(a=7, b=2)
 
     text = 'Hello World!'
-    x = vc.encrypt(text)
+    x = vc.decrypt(vc.encrypt(text))
     print(x)
     current, peak = tracemalloc.get_traced_memory()
     print(f"Current memory usage is {current / 10**3} KB; Peak was {peak / 10**3} KB")

@@ -1,18 +1,14 @@
-from typing import Dict
-from typing import List
-
-
 class Alphabet:
     '''Class that represents the letters of the Alphabet in a language. It
     stores letters in uppercase and lowercase in the order given.
     
     Attributes
     ----------
-    __lower: List[str]
-        List that contains the lowercase letters in the alphabet.
+    __lower: str
+        String that contains the lowercase letters in the alphabet.
 
-    __upper: List[str]
-        List that contains the uppercase letters in the alphabet.
+    __upper: str
+        String that contains the uppercase letters in the alphabet.
     
     order_lower: Dict
         Dictionary that contains the order of the lowercase letters.
@@ -29,15 +25,14 @@ class Alphabet:
         '__upper',
         'order_lower',
         'order_upper',
-        '__length',
         'language'
     ]
 
     def __init__(
         self,
         language: str='',
-        lower: List=[],
-        upper: List=[]
+        lower: str='',
+        upper: str=''
     ) -> None:
         if len(lower) == 0 or len(upper) == 0:
             raise AttributeError('The alphabet is empty.')
@@ -51,23 +46,22 @@ class Alphabet:
         self.lower = lower
         self.upper = upper
         self.language = language
-        self.__length = len(lower)
 
     @property
-    def lower(self) -> Dict:
+    def lower(self) -> str:
         return self.__lower
 
     @lower.setter
-    def lower(self, lower: List[str]) -> None:
+    def lower(self, lower: str) -> None:
         self.__lower = lower
         self.order_lower = {v: k for k, v in enumerate(lower)}
 
     @property
-    def upper(self) -> Dict:
+    def upper(self) -> str:
         return self.__upper
 
     @upper.setter
-    def upper(self, upper: List[str]) -> None:
+    def upper(self, upper: str) -> None:
         self.__upper = upper
         self.order_upper = {v: k for k, v in enumerate(upper)}
 
