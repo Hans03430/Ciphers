@@ -8,11 +8,11 @@ class BaseCipher(ABC):
     
     Attributes
     ----------
-    _language: Alphabet
+    _alphabet: Alphabet
         The alphabet the cipher uses to encrypt/decrypt.
     '''
 
-    __slots__ = ['_language']
+    __slots__ = ['_alphabet']
     
     @abstractmethod
     def decrypt(self, text=str) -> str:

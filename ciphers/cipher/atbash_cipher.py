@@ -1,29 +1,29 @@
 from ciphers.cipher.base_cipher import BaseCipher
 from ciphers.commons.alphabet import Alphabet
-from ciphers.commons.constants import languages
+from ciphers.commons.constants import LANGUAGES
 
 
 class AtbashCipher(BaseCipher):
-    '''Class that defines the Atbash Cipher for a language. Uses english by
-    default but accepts custom languages.
+    '''Class that defines the Atbash Cipher for a alphabet. Uses english by
+    default but accepts custom alphabets.
     '''
 
-    def __init__(self, language: Alphabet=None) -> None:
+    def __init__(self, alphabet: Alphabet=None) -> None:
         '''Create a Atbash Cipher class.
         '''
-        # Add language
-        if language:
-            self.language = language
+        # Add alphabet
+        if alphabet:
+            self.alphabet = alphabet
         else:
-            self.language = languages['en']
+            self.alphabet = LANGUAGES['en']
 
     @property
-    def language(self) -> Alphabet:
-        return self._language
+    def alphabet(self) -> Alphabet:
+        return self._alphabet
 
-    @language.setter
-    def language(self, language: Alphabet) -> None:
-        self._language = language
+    @alphabet.setter
+    def alphabet(self, alphabet: Alphabet) -> None:
+        self._alphabet = alphabet
 
     def decrypt(self, text:str) -> str:
         '''Decrypt a encrypted text using the Atbash cipher, using the shift
@@ -35,13 +35,13 @@ class AtbashCipher(BaseCipher):
             The text to decrypt.
         '''
         decrypted_generator = (
-            self.language[
-                ((-1 * self.language[character]) - 1) % len(self.language),
+            self.alphabet[
+                ((-1 * self.alphabet[character]) - 1) % len(self.alphabet),
                 'lower'
             ]
             if character.islower()
-            else self.language[
-                ((-1 * self.language[character]) - 1) % len(self.language),
+            else self.alphabet[
+                ((-1 * self.alphabet[character]) - 1) % len(self.alphabet),
                 'upper'
             ]
             if character.isupper()

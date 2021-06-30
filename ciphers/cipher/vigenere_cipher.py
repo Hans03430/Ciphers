@@ -1,13 +1,13 @@
 from ciphers.cipher.base_cipher import BaseCipher
 from ciphers.cipher.caesar_cipher import CaesarCipher
 from ciphers.commons.alphabet import Alphabet
-from ciphers.commons.constants import languages
+from ciphers.commons.constants import LANGUAGES
 from typing import Generator
 
 
 class VigenereCipher(BaseCipher):
-    '''Class that defines the Vigenere Cipher for a language. Uses english by
-    default but accepts custom languages.
+    '''Class that defines the Vigenere Cipher for a alphabet. Uses english by
+    default but accepts custom alphabets.
     
     Attributes
     ----------
@@ -22,16 +22,16 @@ class VigenereCipher(BaseCipher):
     '''
     __slots__ = ['__key', '__shifts', '__key_ord']
 
-    def __init__(self, key='LEMON', language: Alphabet=None) -> None:
+    def __init__(self, key='LEMON', alphabet: Alphabet=None) -> None:
         '''Create a Vigenere Cipher class.
         '''
         if len(key) == 0:
             raise AttributeError('The key can\'t be empty.')
-        # Add language
-        if language:
-            self.language = language
+        # Add alphabet
+        if alphabet:
+            self.alphabet = alphabet
         else:
-            self.language = languages['en']
+            self.alphabet = LANGUAGES['en']
 
         self.key = key
 
@@ -43,23 +43,22 @@ class VigenereCipher(BaseCipher):
     def key(self, key: str) -> None:
         self.__key = key
         self.__key_ord = [
-            self.language.order_lower[c]
+            self.alphabet[c]
             if c.islower()
-            else self.language.order_upper[c]
+            else self.alphabet[c]
             for c in self.key
         ]
 
     @property
-    def language(self) -> Alphabet:
-        return self._language
+    def alphabet(self) -> Alphabet:
+        return self._alphabet
 
-    @language.setter
-    def language(self, language: Alphabet) -> None:
-        self._language = language
+    @alphabet.setter
+    def alphabet(self, alphabet: Alphabet) -> None:
+        self._alphabet = alphabet
         # Create the a caesar cipher
-        self.__shifts = CaesarCipher(language=self.language)
+        self.__shifts = CaesarCipher(alphabet=self.alphabet)
         
-
     def decrypt(self, text:str) -> str:
         '''Decrypt a encrypted text using the Vigenere cipher, using the shift
         given to the class.

@@ -1,7 +1,7 @@
 from ciphers.commons.alphabet import Alphabet
 
 
-languages = {
+LANGUAGES = {
     'en': Alphabet(
         language='en',
         lower='abcdefghijklmnopqrstuvwxyz',

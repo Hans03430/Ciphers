@@ -2,12 +2,12 @@ import math
 
 from ciphers.cipher.base_cipher import BaseCipher
 from ciphers.commons.alphabet import Alphabet
-from ciphers.commons.constants import languages
+from ciphers.commons.constants import LANGUAGES
 
 
 class AffineCipher(BaseCipher):
-    '''Class that defines the Affine Cipher for a language. Uses english by
-    default but accepts custom languages.
+    '''Class that defines the Affine Cipher for a alphabet. Uses english by
+    default but accepts custom alphabets.
     
     Paramters
     ---------
@@ -20,25 +20,25 @@ class AffineCipher(BaseCipher):
 
     __slots__ = ['__a', '__b']
 
-    def __init__(self, a: int=1, b: int=1, language: Alphabet=None) -> None:
+    def __init__(self, a: int=1, b: int=1, alphabet: Alphabet=None) -> None:
         '''Create a Atbash Cipher class.
         '''
-        # Add language
-        if language:
-            self.language = language
+        # Add alphabet
+        if alphabet:
+            self.alphabet = alphabet
         else:
-            self.language = languages['en']
+            self.alphabet = LANGUAGES['en']
         # Add keys
         self.a = a
         self.b = b
 
     @property
-    def language(self) -> Alphabet:
-        return self._language
+    def alphabet(self) -> Alphabet:
+        return self._alphabet
 
-    @language.setter
-    def language(self, language: Alphabet) -> None:
-        self._language = language
+    @alphabet.setter
+    def alphabet(self, alphabet: Alphabet) -> None:
+        self._alphabet = alphabet
 
     @property
     def b(self) -> int:
@@ -55,7 +55,7 @@ class AffineCipher(BaseCipher):
     @a.setter
     def a(self, a: int) -> None:
         # Check if 'a' and the length of the alphabet are coprimes.
-        if math.gcd(a, len(self.language)) == 1:
+        if math.gcd(a, len(self.alphabet)) == 1:
             self.__a = a
         else:
             raise AttributeError(
@@ -72,23 +72,23 @@ class AffineCipher(BaseCipher):
             The text to decrypt.
         '''
         decrypted_generator = (
-            self.language[
+            self.alphabet[
                 (
                     (
-                        pow(self.a, -1, len(self.language))
-                        * (self.language[character] - self.b)
+                        pow(self.a, -1, len(self.alphabet))
+                        * (self.alphabet[character] - self.b)
                     ) 
-                    % len(self.language)
+                    % len(self.alphabet)
                 ),
                 'lower'
             ]
             if character.islower()
-            else self.language[
+            else self.alphabet[
                 (
                     (
-                        pow(self.a, -1, len(self.language))
-                        * (self.language[character] - self.b)
-                    ) % len(self.language)
+                        pow(self.a, -1, len(self.alphabet))
+                        * (self.alphabet[character] - self.b)
+                    ) % len(self.alphabet)
                 ),
                 'upper'
             ]
@@ -109,18 +109,18 @@ class AffineCipher(BaseCipher):
             The text to encrypt.
         '''
         encrypted_generator = (
-            self.language[
+            self.alphabet[
                 (
-                    ((self.a * self.language[character]) + self.b) 
-                    % len(self.language)
+                    ((self.a * self.alphabet[character]) + self.b) 
+                    % len(self.alphabet)
                 ),
                 'lower'
             ]
             if character.islower()
-            else self.language[
+            else self.alphabet[
                 (
-                    ((self.a * self.language[character]) + self.b) 
-                    % len(self.language)
+                    ((self.a * self.alphabet[character]) + self.b) 
+                    % len(self.alphabet)
                 ),
                 'upper'
             ]
