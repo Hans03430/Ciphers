@@ -53,16 +53,13 @@ class Alphabet:
     ) -> None:
         # Check if upper is empty
         if len(upper) == 0:
-            raise AttributeError('The uppercase alphabet is empty.')
+            raise AttributeError('The alphabet is empty.')
         # Check if lower is empty
         if len(lower) == 0:
-            raise AttributeError('The lowercase alphabet is empty')
+            raise AttributeError('The alphabet is empty')
         # Check if they are the same length
         if len(lower) != len(upper):
-            raise AttributeError(
-                'The alphabet does not have the same amount of letters in \
-                upper and lowercase.'
-            )
+            raise AttributeError('The alphabets must have the same length')
         # All good
         self.__lower = lower
         self.order_lower = {v: k for k, v in enumerate(lower)}
