@@ -34,37 +34,38 @@ class Alphabet:
         lower: str='abcdefghijklmnopqrstuvwxyz',
         upper: str='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     ) -> None:
-        if len(lower) != len(upper):
-            raise AttributeError(
-                'The alphabet does not have the same amount of letters in \
-                upper and lowercase.'
-            )
-        
-        self.lower = lower
-        self.upper = upper
+        self.set_new_alphabet(lower, upper)
+
         self.language = language
 
     @property
     def lower(self) -> str:
         return self.__lower
 
-    @lower.setter
-    def lower(self, lower: str) -> None:
-        if len(lower) == 0:
-            raise AttributeError('The lowercase alphabet is empty.')
-            
-        self.__lower = lower
-        self.order_lower = {v: k for k, v in enumerate(lower)}
-
     @property
     def upper(self) -> str:
         return self.__upper
 
-    @upper.setter
-    def upper(self, upper: str) -> None:
+    def set_new_alphabet(
+        self,
+        lower: str='abcdefghijklmnopqrstuvwxyz',
+        upper: str='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    ) -> None:
+        # Check if upper is empty
         if len(upper) == 0:
             raise AttributeError('The uppercase alphabet is empty.')
-
+        # Check if lower is empty
+        if len(lower) == 0:
+            raise AttributeError('The lowercase alphabet is empty')
+        # Check if they are the same length
+        if len(lower) != len(upper):
+            raise AttributeError(
+                'The alphabet does not have the same amount of letters in \
+                upper and lowercase.'
+            )
+        # All good
+        self.__lower = lower
+        self.order_lower = {v: k for k, v in enumerate(lower)}
         self.__upper = upper
         self.order_upper = {v: k for k, v in enumerate(upper)}
 
