@@ -9,10 +9,10 @@ from ciphers.commons.alphabet import Alphabet
 
 if __name__ == '__main__':
     tracemalloc.start()
-    vc = VigenereCipher()
+    vc = VigenereCipher(key='lemon')
 
-    text = 'ATTACKATDAWN'
-    x = vc.encrypt(text)
+    text = 'ATTACKATDAWN;'
+    x = vc.decrypt(vc.encrypt(text))
     print(x)
     current, peak = tracemalloc.get_traced_memory()
     print(f"Current memory usage is {current / 10**3} KB; Peak was {peak / 10**3} KB")

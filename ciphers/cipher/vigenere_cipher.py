@@ -41,12 +41,21 @@ class VigenereCipher(BaseCipher):
 
     @key.setter
     def key(self, key: str) -> None:
+        # Check if key belongs to the given alphabet
+        for character in key:
+            if not (
+                self.alphabet.is_lower(character)
+                or
+                self.alphabet.is_upper(character)
+            ):
+                raise AttributeError(
+                    'The key has characters that don\'t belong to the alphabet'
+                )
+
         self.__key = key
         self.__key_ord = [
-            self.alphabet[c]
-            if c.islower()
-            else self.alphabet[c]
-            for c in self.key
+            self.alphabet[character]
+            for character in self.key
         ]
 
     @property

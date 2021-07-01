@@ -82,7 +82,7 @@ class AffineCipher(BaseCipher):
                 ),
                 'lower'
             ]
-            if character.islower()
+            if self.alphabet.is_lower(character)
             else self.alphabet[
                 (
                     (
@@ -92,7 +92,7 @@ class AffineCipher(BaseCipher):
                 ),
                 'upper'
             ]
-            if character.isupper()
+            if self.alphabet.is_upper(character)
             else character
             for character in text
         )
@@ -116,7 +116,7 @@ class AffineCipher(BaseCipher):
                 ),
                 'lower'
             ]
-            if character.islower()
+            if self.alphabet.is_lower(character)
             else self.alphabet[
                 (
                     ((self.a * self.alphabet[character]) + self.b) 
@@ -124,7 +124,7 @@ class AffineCipher(BaseCipher):
                 ),
                 'upper'
             ]
-            if character.isupper()
+            if self.alphabet.is_upper(character)
             else character
             for character in text
         )

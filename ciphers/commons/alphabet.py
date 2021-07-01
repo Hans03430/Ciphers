@@ -30,13 +30,10 @@ class Alphabet:
 
     def __init__(
         self,
-        language: str='',
-        lower: str='',
-        upper: str=''
+        language: str='es',
+        lower: str='abcdefghijklmnopqrstuvwxyz',
+        upper: str='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     ) -> None:
-        if len(lower) == 0 or len(upper) == 0:
-            raise AttributeError('The alphabet is empty.')
-            
         if len(lower) != len(upper):
             raise AttributeError(
                 'The alphabet does not have the same amount of letters in \
@@ -53,6 +50,9 @@ class Alphabet:
 
     @lower.setter
     def lower(self, lower: str) -> None:
+        if len(lower) == 0:
+            raise AttributeError('The lowercase alphabet is empty.')
+            
         self.__lower = lower
         self.order_lower = {v: k for k, v in enumerate(lower)}
 
@@ -62,6 +62,9 @@ class Alphabet:
 
     @upper.setter
     def upper(self, upper: str) -> None:
+        if len(upper) == 0:
+            raise AttributeError('The uppercase alphabet is empty.')
+
         self.__upper = upper
         self.order_upper = {v: k for k, v in enumerate(upper)}
 
@@ -179,3 +182,35 @@ class Alphabet:
             raise KeyError(
                 'Unsupported type of case. Just "lower" and "upper" is allowed.'
             )
+
+    def is_lower(self, character: str) -> bool:
+        '''Method that checks if a character is part of the dictionary that
+        holds all characters that were given in the 'lower' list.
+        
+        Parameters
+        ----------
+        character: str
+            Character to check if is lower or not.
+            
+        Returns
+        -------
+        is_lower: bool
+            True if it is, false if not.
+        '''
+        return character in self.order_lower
+
+    def is_upper(self, character: str) -> bool:
+        '''Method that checks if a character is part of the dictionary that
+        holds all characters that were given in the 'upper' list.
+        
+        Parameters
+        ----------
+        character: str
+            Character to check if is upper or not.
+            
+        Returns
+        -------
+        is_upper: bool
+            True if it is, false if not.
+        '''
+        return character in self.order_upper

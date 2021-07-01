@@ -51,12 +51,12 @@ class CaesarCipher(BaseCipher):
                 (self.alphabet[character] - self.shift) % len(self.alphabet),
                 'lower'
             ]
-            if character.islower()
+            if self.alphabet.is_lower(character)
             else self.alphabet[
                 (self.alphabet[character] - self.shift) % len(self.alphabet),
                 'upper'
             ]
-            if character.isupper()
+            if self.alphabet.is_upper(character)
             else character
             for character in text
         )
@@ -77,12 +77,12 @@ class CaesarCipher(BaseCipher):
                 (self.alphabet[character] + self.shift) % len(self.alphabet),
                 'lower'
             ]
-            if character.islower()
+            if self.alphabet.is_lower(character)
             else self.alphabet[
                 (self.alphabet[character] + self.shift) % len(self.alphabet),
                 'upper'
             ]
-            if character.isupper()
+            if self.alphabet.is_upper(character)
             else character
             for character in text
         )

@@ -39,12 +39,12 @@ class AtbashCipher(BaseCipher):
                 ((-1 * self.alphabet[character]) - 1) % len(self.alphabet),
                 'lower'
             ]
-            if character.islower()
+            if self.alphabet.is_lower(character)
             else self.alphabet[
                 ((-1 * self.alphabet[character]) - 1) % len(self.alphabet),
                 'upper'
             ]
-            if character.isupper()
+            if self.alphabet.is_upper(character)
             else character
             for character in text
         )
