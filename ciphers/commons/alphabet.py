@@ -134,14 +134,17 @@ class Alphabet:
         KeyError
             When the letter does not belong to the alphabet.
         '''
-        if key in self.order_lower:
-            return self.order_lower[key]
-        elif key in self.order_upper:
-            return self.order_upper[key]
+        lower = self.order_lower.get(key, None)
+        if lower is None:
+            upper = self.order_upper.get(key, None)
+            if upper is None:
+                raise KeyError(
+                    f'The letter "{key}" does not belong to the alphabet.'
+                )
+            else:
+                return upper
         else:
-            raise KeyError(
-                f'The letter "{key}" does not belong to the alphabet.'
-            )
+            return lower
 
     def __get_letter_cased_by_order(self, key: tuple) -> int:
         '''Returns a letter, lower or uppercase, of the alphabet.
